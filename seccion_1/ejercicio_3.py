@@ -4,17 +4,14 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
-# Cargar los datos
 df = pd.read_csv('iris.csv')
 
 plt.figure(figsize=(15, 12))
 
-# 1. Datos Originales sin estandarizar
 X_original = df[['sepal_length', 'sepal_width']].values
 kmeans_original = KMeans(n_clusters=2, random_state=42)
 clusters_original = kmeans_original.fit_predict(X_original)
 
-# Graficar datos originales
 plt.subplot(2, 2, 1)
 for i in range(2):
     mask = clusters_original == i
@@ -30,13 +27,11 @@ plt.ylabel('Ancho del Sépalo')
 plt.legend()
 plt.grid(True)
 
-# 2. Estandarizar los datos
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_original)
 kmeans_scaled = KMeans(n_clusters=2, random_state=42)
 clusters_scaled = kmeans_scaled.fit_predict(X_scaled)
 
-# Graficar datos estandarizados
 plt.subplot(2, 2, 2)
 for i in range(2):
     mask = clusters_scaled == i
@@ -52,7 +47,6 @@ plt.ylabel('Ancho del Sépalo (estandarizado)')
 plt.legend()
 plt.grid(True)
 
-# 3. Comparar asignaciones de clusters
 plt.subplot(2, 2, 3)
 plt.scatter(X_original[:, 0], X_original[:, 1], 
            c=clusters_original, cmap='viridis', 
@@ -74,7 +68,6 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-# Análisis de los clusters
 print("\nComparación de los Clusters:")
 
 print("\n1. Datos Originales:")
@@ -101,6 +94,5 @@ cambios = np.sum(clusters_original != clusters_scaled)
 print(f"\nNúmero de puntos que cambiaron de cluster: {cambios}")
 print(f"Porcentaje de cambio: {(cambios/len(df))*100:.2f}%")
 
-# Calcular la inercia
 print(f"\nInercia con datos originales: {kmeans_original.inertia_:.2f}")
 print(f"Inercia con datos estandarizados: {kmeans_scaled.inertia_:.2f}")
